@@ -1,7 +1,28 @@
 name: Test Go Code
 
 on:
-    push:
-        branches: ['main']
-    pull_request:
-    workflow_dispatch:
+  pull_request:
+  workflow_call:
+  workflow_dispatch:
+
+env:
+  ENVIRONMENT: test
+  MYSQL_CONNECTION_STRING: ${{ secrets.CI_MYSQL_CONNECTION_STRING }}
+
+jobs:
+
+  test:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup environment
+        run: |          
+          : # Docker networks for CI testing
+          docker network create dev_network
+      
+      - name: Run CI tests
+        run: |
+          make ci
