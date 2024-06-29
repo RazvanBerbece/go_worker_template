@@ -25,4 +25,5 @@ jobs:
       
       - name: Run CI tests
         run: |
-          make ci
+          docker compose down -v
+	        docker compose -f test/docker-compose.ci.yml up --remove-orphans --force-recreate --build --exit-code-from SUT

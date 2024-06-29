@@ -3,96 +3,67 @@ package repositories
 import (
 	"fmt"
 
-	"github.com/google/uuid"
 	"github.com/org/sample_go_worker/src/data"
 	"github.com/org/sample_go_worker/src/data/models/dax"
 )
 
 type GenericItemsRepository interface {
-	AddItem(name string) (int64, error)
+	AddItem(name string) (*dax.Item, error)
 	GetItem(id string) (*dax.Item, error)
 	DeleteItem(id string) (int64, error)
 }
 
 type ItemsRepository struct {
-	DbContext data.GenericDatabaseContext
+	Database data.Database
 }
 
-func NewItemsRepository(connString string) ItemsRepository {
-	repo := ItemsRepository{&data.DatabaseContext{
-		ConnectionString: connString,
-	}}
-	repo.DbContext.Connect()
+func NewItemsRepository(db data.Database) ItemsRepository {
+	repo := ItemsRepository{
+		Database: db,
+	}
 	return repo
 }
 
-func (r ItemsRepository) AddItem(name string) (int64, error) {
+func (r ItemsRepository) AddItem(name string) (*dax.Item, error) {
 
-	stockItem := &dax.Item{
-		Id:          uuid.New().String(),
-		DisplayName: name,
+	item := dax.Item{DisplayName: name}
+
+	result := r.Database.SqlDb.Create(&item)
+	if result.Error != nil {
+		fmt.Printf("cannot create new item in DB: %v", result.Error)
+		return nil, result.Error
 	}
 
-	stmt, err := r.DbContext.GetConfiguredSqlDb().Prepare(`
-		INSERT INTO 
-			Items(
-				id, 
-				displayName
-			)
-		VALUES(?, ?);`)
-	if err != nil {
-		return 0, err
-	}
-	defer stmt.Close()
+	fmt.Println(result.RowsAffected)
 
-	res, err := stmt.Exec(stockItem.Id, stockItem.DisplayName)
-	if err != nil {
-		return 0, err
-	}
+	fmt.Println(item)
 
-	rowsAffected, err := res.RowsAffected()
-	if err != nil {
-		return 0, err
-	}
-
-	return rowsAffected, nil
+	return &item, nil
 
 }
 
 func (r ItemsRepository) GetItem(id string) (*dax.Item, error) {
 
-	query := "SELECT * FROM Items WHERE id = ?"
-	row := r.DbContext.GetConfiguredSqlDb().QueryRow(query, id)
-
 	var item dax.Item
-	err := row.Scan(&item.Id,
-		&item.DisplayName)
 
-	if err != nil {
-		return nil, fmt.Errorf("an error ocurred while retrieving item with ID `%s`", id)
+	err := r.Database.SqlDb.First(&item, "id = ?", id)
+	if err.Error != nil {
+		fmt.Printf("cannot create new item in DB: %v", err.Error)
+		return nil, err.Error
 	}
 
 	return &item, nil
 
 }
 
-func (r ItemsRepository) DeleteItem(id string) (int64, error) {
+func (r ItemsRepository) DeleteItem(id string) error {
 
-	stmt, err := r.DbContext.GetConfiguredSqlDb().Prepare(`DELETE FROM Items WHERE id = ?`)
-	if err != nil {
-		return 0, err
-	}
-	defer stmt.Close()
-
-	res, err := stmt.Exec(id)
-	if err != nil {
-		return 0, err
+	err := r.Database.SqlDb.Delete(&dax.Item{}, id)
+	if err.Error != nil {
+		fmt.Printf("cannot create new item in DB: %v", err.Error)
+		return err.Error
 	}
 
-	rowsAffected, err := res.RowsAffected()
-	if err != nil {
-		return 0, err
-	}
+	return nil
 
-	return rowsAffected, nil
 }

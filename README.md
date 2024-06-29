@@ -17,8 +17,11 @@ Comes with:
 
 ### How to Run
 
-* How to run the program
-* Step-by-step bullets
+1. Run `docker compose up -d --remove-orphans --build` in the root of the repo to start the
+  * MySQL instance
+  * Go worker service
+
+2. Run `docker compose down -v` to bring down all infrastructure and stop all the services
 
 ## Help
 
