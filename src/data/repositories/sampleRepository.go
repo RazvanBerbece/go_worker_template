@@ -10,7 +10,7 @@ import (
 type GenericItemsRepository interface {
 	AddItem(name string) (*dax.Item, error)
 	GetItem(id string) (*dax.Item, error)
-	DeleteItem(id string) (int64, error)
+	DeleteItem(id string) error
 }
 
 type ItemsRepository struct {

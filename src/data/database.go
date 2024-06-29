@@ -13,19 +13,24 @@ type Database struct {
 	SqlDb            *gorm.DB
 
 	// Configurations
+	RetryCount     int
 	AutoMigrations bool
 }
 
 // Returns a data service connected to the database passed in through the connection string.
 // Runs migrations based on the GORM schema if the flag is set to true.
-func NewDatabaseService(connectionString string, autoMigrations bool) Database {
+func NewDatabaseService(connectionString string, retryCount int, autoMigrations bool) Database {
 
 	var database = Database{
 		ConnectionString: connectionString,
 		AutoMigrations:   autoMigrations,
+		RetryCount:       retryCount,
 	}
 
-	database.Connect()
+	err := database.Connect()
+	if err != nil {
+		panic(err)
+	}
 
 	return database
 
@@ -33,10 +38,19 @@ func NewDatabaseService(connectionString string, autoMigrations bool) Database {
 
 func (dbm *Database) Connect() error {
 
-	db, err := gorm.Open(mysql.Open(dbm.ConnectionString), &gorm.Config{})
-	if err != nil {
-		fmt.Printf("an error ocurred while connecting to the DB: %v\n", err)
-		return err
+	var db *gorm.DB
+
+	// Connect with a basic retry strategy
+	// Attempt N times to connect
+	for range dbm.RetryCount {
+		var err error
+		db, err = gorm.Open(mysql.Open(dbm.ConnectionString), &gorm.Config{})
+		if err == nil {
+			break
+		} else {
+			fmt.Printf("an error ocurred while connecting to the DB: %v\n", err)
+			fmt.Println("retrying to establish connection to the DB...")
+		}
 	}
 
 	if dbm.AutoMigrations {
