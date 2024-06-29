@@ -6,7 +6,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: thisIsASampleRootPassword
       MYSQL_USER: mysqluser
-      MYSQL_DATABASE: mysql-db
+      MYSQL_DATABASE: sample-database
       MYSQL_PASSWORD: thisIsASampleUserPassword
     ports:
       - "3306:3306"
@@ -15,6 +15,9 @@ services:
     container_name: worker
     depends_on:
       - mysql-db-1
+    environment:
+      ENVIRONMENT: local
+      MYSQL_CONNECTION_STRING: root:thisIsASampleRootPassword@tcp(mysql-db-1:3306)/sample-database?parseTime=true
     build:
       dockerfile: ./Dockerfile
 
