@@ -25,7 +25,7 @@ var ItemsService = services.ItemsService{
 
 func main() {
 
-	config.LogAppConfiguration(*ConsoleLogger)
+	go config.LogAppConfiguration(*ConsoleLogger)
 
 	_, err := ItemsService.CreateItem("SampleItem")
 	if err != nil {

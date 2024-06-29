@@ -17,6 +17,7 @@ services:
       - mysql-db-1
     environment:
       ENVIRONMENT: test
+      SUPRESS_SECRETS_IN_CONFIG_LOGS: true
       MYSQL_CONNECTION_STRING: root:thisIsASampleRootPassword@tcp(mysql-db-1:3306)/sample-database?parseTime=true
     build:
       dockerfile: ./Dockerfile
