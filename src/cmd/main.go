@@ -25,10 +25,12 @@ var ItemsService = services.ItemsService{
 
 func main() {
 
+	// If enables, output to console the app configuration
 	if config.LogAppConfigAtStartup {
 		go config.LogAppConfiguration(*ConsoleLogger)
 	}
 
+	// Sample app logic starts here
 	_, err := ItemsService.CreateItem("SampleItem")
 	if err != nil {
 		fmt.Println(err)
