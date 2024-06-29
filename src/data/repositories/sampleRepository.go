@@ -34,10 +34,6 @@ func (r ItemsRepository) AddItem(name string) (*dax.Item, error) {
 		return nil, result.Error
 	}
 
-	fmt.Println(result.RowsAffected)
-
-	fmt.Println(item)
-
 	return &item, nil
 
 }

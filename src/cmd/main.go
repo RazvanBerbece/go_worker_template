@@ -15,7 +15,7 @@ import (
 var ConsoleLogger = slog.New(slog.NewTextHandler(os.Stdout, nil))
 
 // Infrastructure
-var Database = data.NewDatabaseService(config.MySqlConnectionString, 5, true)
+var Database = data.NewDatabaseService(config.MySqlConnectionString, true, true)
 
 // Services
 var ItemsService = services.ItemsService{
@@ -25,8 +25,7 @@ var ItemsService = services.ItemsService{
 
 func main() {
 
-	fmt.Printf("Running in environment -> %s\n", config.Environment)
-	fmt.Printf("	with DB connection string -> %s\n", config.MySqlConnectionString)
+	config.LogAppConfiguration(*ConsoleLogger)
 
 	_, err := ItemsService.CreateItem("SampleItem")
 	if err != nil {
