@@ -1,3 +1,8 @@
+//
+// This is an example of a service that depends on a logger and a repository.
+// Other services can extend this model.
+//
+
 package services
 
 import (

@@ -13,9 +13,11 @@ type Database struct {
 	ConnectionString string
 	SqlDb            *gorm.DB
 
-	// Configurations
+	// Whether to activate a retry strategy for the DB connection on NewDatabaseService()
 	RetryTillHealthy bool
-	AutoMigrations   bool
+
+	// Whether to automatically run migrations according to the gorm models
+	AutoMigrations bool
 }
 
 // Returns a data service connected to the database passed in through the connection string.
