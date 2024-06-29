@@ -1,6 +1,12 @@
 # Project Title
 
-Simple overview of use/purpose.
+A repository template for containerised backend workers written in the Go language. 
+
+Comes with:
+- containerised MySQL image
+- service composition via `docker-compose.yml` with all services
+- CI pipeline to run in GitHub
+- helper Go functions and structs for DB connections and queries
 
 ## Getting Started
 
