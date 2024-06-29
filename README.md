@@ -4,8 +4,8 @@ A repository template for containerised backend workers written in the Go langua
 
 Comes with:
 - containerised MySQL image
-- service composition via `docker-compose.yml` with all services
-- CI pipeline to run in GitHub
+- 1-command service composition for all services, external and Go alike: [docker-compose.yml](./docker-compose.yml)
+- CI pipeline to run in GitHub: [GHA CI Workflow](./.github/workflows/ci.yml)
 - helper Go functions and structs for DB connections and queries
 
 ## Getting Started
