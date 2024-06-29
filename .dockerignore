@@ -4,15 +4,15 @@
 .git/
 
 .dockerignore
-cmd/Dockerfile
+Dockerfile
 docker-compose.yml
-docker-compose.ci.yml
 
 test/
 
 build/
-*.log
 
 .DS_Store
 *.md
 README.md
+
+src/data/README.md
