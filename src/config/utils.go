@@ -13,8 +13,8 @@ func LogAppConfiguration(logger slog.Logger) {
 	// Runtime utils
 	log.Printf("ENVIRONMENT=%s", Environment)
 
-	// SECRET APP CONFIGURATIONS
-	if SuppressSecretsInConfigLogs {
+	// SECRET APP CONFIGURATIONS - Suppresed by default
+	if SuppressSecretsInConfigLogs == 1 || SuppressSecretsInConfigLogsErr != nil {
 		// Connection strings
 		log.Printf("MYSQL_CONNECTION_STRING=%s", "***")
 	} else {

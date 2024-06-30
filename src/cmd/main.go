@@ -26,7 +26,7 @@ var ItemsService = services.ItemsService{
 func main() {
 
 	// If enabled, output to console the app configuration
-	if config.LogAppConfigAtStartup {
+	if config.LogAppConfigAtStartup == 1 {
 		go config.LogAppConfiguration(*ConsoleLogger)
 	}
 
