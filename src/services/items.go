@@ -1,6 +1,6 @@
 //
 // This is an example of a service that depends on a logger and a repository.
-// Other services can extend this model.
+// Other services can use and further extend this model.
 //
 
 package services
@@ -36,7 +36,7 @@ func (s ItemsService) CreateItem(name string) (*dax.Item, error) {
 
 func (s ItemsService) GetItem(id uint) (*dax.Item, error) {
 
-	// log := fmt.Sprintf("Creating item: %s", name)
+	// log := fmt.Sprintf("Retrieving item: %s", name)
 	// s.Logger.Info(log)
 
 	item, err := s.ItemsRepository.GetItem(id)
@@ -51,7 +51,7 @@ func (s ItemsService) GetItem(id uint) (*dax.Item, error) {
 
 func (s ItemsService) DeleteItem(id uint) error {
 
-	// log := fmt.Sprintf("Creating item: %s", name)
+	// log := fmt.Sprintf("Deleting item: %s", name)
 	// s.Logger.Info(log)
 
 	err := s.ItemsRepository.DeleteItem(id)
