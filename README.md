@@ -27,7 +27,7 @@ Comes with:
 The automated test suite can be run through the commands below, executed in the root of this repository.
 
 ```
-docker compose down -v && docker-compose -f docker-compose.ci.yml up --remove-orphans --force-recreate --build --exit-code-from sut
+docker-compose -f docker-compose.ci.yml up --remove-orphans --force-recreate --build --exit-code-from sut
 ```
 
 ## Help

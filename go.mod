@@ -3,6 +3,7 @@ module github.com/org/sample_go_worker
 go 1.22.4
 
 require (
+	github.com/brianvoe/gofakeit/v7 v7.0.4
 	github.com/joho/godotenv v1.5.1
 	gorm.io/driver/mysql v1.5.7
 	gorm.io/gorm v1.25.10

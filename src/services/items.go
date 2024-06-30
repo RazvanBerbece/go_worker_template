@@ -27,14 +27,14 @@ func (s ItemsService) CreateItem(name string) (*dax.Item, error) {
 	item, err := s.ItemsRepository.AddItem(name)
 	if err != nil {
 		fmt.Println(err)
-		return nil, err
+		return nil, fmt.Errorf("cannot create item with name %s", name)
 	}
 
 	return item, nil
 
 }
 
-func (s ItemsService) GetItem(id string) (*dax.Item, error) {
+func (s ItemsService) GetItem(id uint) (*dax.Item, error) {
 
 	// log := fmt.Sprintf("Creating item: %s", name)
 	// s.Logger.Info(log)
@@ -42,14 +42,14 @@ func (s ItemsService) GetItem(id string) (*dax.Item, error) {
 	item, err := s.ItemsRepository.GetItem(id)
 	if err != nil {
 		fmt.Println(err)
-		return nil, err
+		return nil, fmt.Errorf("cannot retrieve item with id %d", id)
 	}
 
 	return item, nil
 
 }
 
-func (s ItemsService) DeleteItem(id string) error {
+func (s ItemsService) DeleteItem(id uint) error {
 
 	// log := fmt.Sprintf("Creating item: %s", name)
 	// s.Logger.Info(log)
@@ -57,7 +57,7 @@ func (s ItemsService) DeleteItem(id string) error {
 	err := s.ItemsRepository.DeleteItem(id)
 	if err != nil {
 		fmt.Println(err)
-		return err
+		return fmt.Errorf("cannot delete item with id %d", id)
 	}
 
 	return nil
