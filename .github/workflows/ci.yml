@@ -25,7 +25,7 @@ jobs:
           : # Docker networks for CI testing
           docker network create dev_network
       
-      - name: Run CI tests
+      - name: Run Go tests
         run: |
           docker compose down -v
-	        docker compose -f test/docker-compose.ci.yml up --remove-orphans --force-recreate --build --exit-code-from SUT
+          docker-compose -f docker-compose.ci.yml up --remove-orphans --force-recreate --build --exit-code-from sut

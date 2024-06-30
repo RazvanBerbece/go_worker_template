@@ -23,6 +23,13 @@ Comes with:
 
 2. Run `docker compose down -v` to bring down all infrastructure and stop all the services
 
+### Run tests
+The automated test suite can be run through the commands below, executed in the root of this repository.
+
+```
+docker compose down -v && docker-compose -f docker-compose.ci.yml up --remove-orphans --force-recreate --build --exit-code-from sut
+```
+
 ## Help
 
 Any advise for common problems or issues.

@@ -11,8 +11,8 @@ services:
     ports:
       - "3306:3306"
   
-  SUT:
-    container_name: worker
+  sut:
+    container_name: go-worker-sut
     depends_on:
       - mysql-db-1
     environment:
@@ -21,7 +21,11 @@ services:
       SUPRESS_SECRETS_IN_STARTUP_LOGS: true
       MYSQL_CONNECTION_STRING: root:thisIsASampleRootPassword@tcp(mysql-db-1:3306)/sample-database?parseTime=true
     build:
-      dockerfile: ./Dockerfile
+      context: .
+      dockerfile: ./test/Dockerfile
+    volumes:
+      - "./test:/app/test"
+    entrypoint: [ "bash", "-c", "go test ./test/..."]
 
 networks:
   default:
