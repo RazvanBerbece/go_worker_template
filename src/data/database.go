@@ -45,14 +45,24 @@ func (dbm *Database) Connect() error {
 
 	// Connect with a basic retry strategy
 	// Attempt until the state of the connection is healthy
-	for {
+	if dbm.RetryTillHealthy {
+		for {
+			var err error
+			db, err = gorm.Open(mysql.Open(dbm.ConnectionString), &gorm.Config{})
+			if err == nil {
+				break
+			} else {
+				fmt.Println("retrying to establish connection to the DB...")
+				time.Sleep(5 * time.Second)
+			}
+		}
+	} else {
+		// No retry strategy
 		var err error
 		db, err = gorm.Open(mysql.Open(dbm.ConnectionString), &gorm.Config{})
-		if err == nil {
-			break
-		} else {
-			fmt.Println("retrying to establish connection to the DB...")
-			time.Sleep(5 * time.Second)
+		if err != nil {
+			fmt.Printf("failed to connect to DB: %v", err)
+			return err
 		}
 	}
 
