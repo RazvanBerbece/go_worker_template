@@ -1,0 +1,17 @@
+#
+# This workflow can be used to automatically raise a PR that updates
+# the GitHub Actions dependencies used in the sources in .github/workflows.
+#
+
+name: GHA Version Updater 
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+    update:
+        uses: RazvanBerbece/shared-workflows/.github/workflows/update_gh_dependencies.yml@main
+        secrets:
+            PAT: ${{ secrets.INTEGRATIONS_PAT }}
+        

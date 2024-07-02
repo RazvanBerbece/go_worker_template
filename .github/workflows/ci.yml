@@ -1,3 +1,8 @@
+#
+# This workflow runs the automated test suite for the Go program.
+# The tests are containerised and connect to a local MySQL container on the same network as the Go worker.
+#
+
 name: Test Go Code
 
 on:
