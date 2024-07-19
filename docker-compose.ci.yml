@@ -17,6 +17,7 @@ services:
       - mysql-db-1
     environment:
       ENVIRONMENT: test
+      PORT: 8080
       LOG_APP_CONFIG_AT_STARTUP: 0
       SUPRESS_SECRETS_IN_STARTUP_LOGS: 1
       MYSQL_CONNECTION_STRING: root:thisIsASampleRootPassword@tcp(mysql-db-1:3306)/test-database?parseTime=true

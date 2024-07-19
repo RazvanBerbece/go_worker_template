@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"log/slog"
-	"os"
+	"net/http"
 
 	"github.com/org/sample_go_worker/src/config"
 	"github.com/org/sample_go_worker/src/data"
@@ -12,7 +12,7 @@ import (
 )
 
 // Loggers
-var ConsoleLogger = slog.New(slog.NewTextHandler(os.Stdout, nil))
+var ConsoleLogger = slog.Default()
 
 // Infrastructure
 var Database = data.NewDatabaseService(config.MySqlConnectionString, true, true)
@@ -30,9 +30,9 @@ func main() {
 		go config.LogAppConfiguration(*ConsoleLogger)
 	}
 
-	// Sample app logic starts here
-	_, err := ItemsService.CreateItem("SampleItem")
-	if err != nil {
-		fmt.Println(err)
+	// e.g: Blocking call to handle requests
+	// This could be replaced with different logic, but HTTP request handling is given as an example.
+	if err := http.ListenAndServe(fmt.Sprintf(":%s", config.Port), nil); err != nil {
+		ConsoleLogger.Error("Failed to start backend worker:", slog.String("error", err.Error()))
 	}
 }
