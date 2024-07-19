@@ -13,7 +13,7 @@ type Database struct {
 	ConnectionString string
 	SqlDb            *gorm.DB
 
-	// Whether to activate a retry strategy for the DB connection on NewDatabaseService()
+	// Whether to activate a retry strategy for the DB connection on Connect()
 	RetryTillHealthy bool
 
 	// Whether to automatically run migrations according to the gorm models
@@ -66,6 +66,7 @@ func (dbm *Database) Connect() error {
 		}
 	}
 
+	// Gorm-managed DB migrations
 	if dbm.AutoMigrations {
 		db.AutoMigrate(&dax.Item{})
 	}
